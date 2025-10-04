@@ -9,22 +9,18 @@ Authors: Haoran Zhang, [Shuanghao Bai](https://baishuanghao.github.io/), [Wanqi 
 
 ## Highlights
 
-![main figure](model.jpg)
-> **<p align="justify"> Abstract:** *Source-free domain generalization (SFDG) tackles the challenge of adapting models to unseen target domains without access to source domain data. 
-To deal with this challenging task, recent advances in SFDG have primarily focused on leveraging the text modality of vision-language models such as CLIP. 
-These methods involve developing a transferable linear classifier based on diverse style features extracted from the text and learned prompts or deriving domain-unified text representations from domain banks. 
-However, both style features and domain banks have limitations in capturing comprehensive domain knowledge.
-In this work, we propose Prompt-Driven Text Adapter (PromptTA) method, which is designed to better capture the distribution of style features and employ resampling to ensure thorough coverage of domain knowledge. 
-To further leverage this rich domain information, we introduce a text adapter that learns from these style features for efficient domain information storage.
-Extensive experiments conducted on four benchmark datasets demonstrate that PromptTA achieves state-of-the-art performance.* </p>
+![main figure](model.png)
+> **<p align="justify"> Abstract:** *Robotic grasping is one of the most fundamental tasks in robotic manipulation, and grasp detection/generation has long been the subject of extensive research. Recently, language-driven grasp generation has emerged as a promising direction due to its practical interaction capabilities. However, most existing approaches either lack sufficient reasoning and generalization capabilities or depend on complex modular pipelines. Moreover, current grasp foundation models tend to overemphasize dialog and object semantics, resulting in inferior performance and restriction to single-object grasping.
+To maintain strong reasoning ability and generalization in cluttered environments, we propose VCoT-Grasp, an end-to-end grasp foundation model that incorporates visual chain-of-thought reasoning to enhance visual understanding for grasp generation. VCoT-Grasp adopts a multi-turn processing paradigm that dynamically focuses on visual inputs while providing interpretable reasoning traces.
+For training, we refine and introduce a large-scale dataset, VCoT-GraspSet, comprising 167K synthetic images with over 1.36M grasps, as well as 400+ real-world images with more than 1.2K grasps, annotated with intermediate bounding boxes. Extensive experiments on both VCoT-GraspSet and real robot demonstrate that our method significantly improves grasp success rates and generalizes effectively to unseen objects, backgrounds, and distractors. Our code and dataset will be made publicly available.* </p>
 
 <details>
   
 <summary>Main Contributions</summary>
 
-1) We propose PromptTA, a novel adapter-based framework for SFDG that incorporates a text adapter to effectively leverage rich domain information.
-2) We introduce style feature resampling that ensures comprehensive coverage of textual domain knowledge.
-3) Extensive experiments demonstrate that our PromptTA achieves the state of the art on DG benchmarks.
+1) We propose VCoT-Grasp, an end-to-end foundation model that combines language-driven grasp generation with visual chain-of-thought reasoning, improving visual understanding, grasp quality, and generalization.
+2) We present VCoT-GraspSet, a refined grasping dataset comprising 167K synthetic images with over 1.36M grasps and 400+ real-world images with more than 1.2K grasps. Each sample includes an image, grasp annotations, and intermediate bounding boxes that serve as chain-of-thought context.
+3) Extensive experiments on both VCoT-GraspSet and real-world scenarios demonstrate that VCoT-Grasp produces high-quality grasps and generalizes effectively to unseen objects, backgrounds, and distractors.
    
 </details>
 
