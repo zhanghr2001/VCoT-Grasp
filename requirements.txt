@@ -1,0 +1,12 @@
+torch
+torchvision
+torchaudio
+transformers==4.48.3  # in 4.48.2, they fix gemma2 forward behavior when using FA2 https://github.com/huggingface/transformers/pull/35681
+accelerate
+deepspeed==0.15.4  # https://github.com/microsoft/DeepSpeed/issues/6793
+flash-attn  # MAX_JOBS=4 pip install flash-attn --no-build-isolation
+numpy==1.23.5
+pillow
+pandas
+tensorboardX
+nvitop
