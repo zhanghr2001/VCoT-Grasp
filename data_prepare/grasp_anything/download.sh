@@ -1,5 +1,5 @@
 # export HF_ENDPOINT=https://hf-mirror.com
-cd /opt/data/private/MLLM_dataset/grasp_anything
+# cd /opt/data/private/MLLM_dataset/grasp_anything
 
 huggingface-cli download airvlab/Grasp-Anything --repo-type dataset --local-dir ./ --include "image_part_*"
 huggingface-cli download airvlab/Grasp-Anything --repo-type dataset --local-dir ./ --include "grasp_label_positive.zip"

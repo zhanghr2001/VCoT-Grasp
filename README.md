@@ -36,10 +36,17 @@ conda activate grasp
 
 # Install torch, refer to https://pytorch.org/get-started/previous-versions/ if your cuda version is different
 pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu121
+
+# Install flash attention for training, adjust MAX_JOBS according to your RAM
+MAX_JOBS=4 pip install flash-attn --no-build-isolation
+# Alternatively, it's recommended to download .whl file from https://github.com/Dao-AILab/flash-attention/releases and directly install the .whl file.
+wget https://github.com/Dao-AILab/flash-attention/releases/download/v2.7.4.post1/flash_attn-2.7.4.post1+cu12torch2.2cxx11abiFALSE-cp39-cp39-linux_x86_64.whl
+pip install flash_attn-2.7.4.post1+cu12torch2.2cxx11abiFALSE-cp39-cp39-linux_x86_64.whl
 ```
 
 * Clone repository and install requirements.
 ```bash
+# Clone repository
 git clone https://github.com/zhanghr2001/VCoT-Grasp.git
 cd VCoT-Grasp
 
@@ -48,18 +55,23 @@ pip install -r requirements.txt
 ```
 
 ## Data Preparation
-Download Grasp-Anything
+Download Grasp-Anything from Huggingface
 
 ```bash
+# [Optional] set endpoint
+export HF_ENDPOINT=https://hf-mirror.com
+
+# download and unzip
+huggingface-cli login
 bash data_prepare/grasp_anything/download.sh
 ```
 
 Modify the data path in constants.py
-Our filter algorithm can be found in data_prepare/yolo_world.
+<!-- Our filter algorithm can be found in data_prepare/yolo_world. -->
 
 
 ## Training and Evaluation
-Scripts for training and evaluation are in [scripts folder](scripts/). Modify *DATA* to your dataset directory before running.
+Scripts for training and evaluation are in [scripts folder](scripts/). Training configs can be found in [accelerate_configs](accelerate_configs/).
 
 ```bash
 # training
