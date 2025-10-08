@@ -139,6 +139,7 @@ class VCoTGraspInferencer:
 
     def generate_postprocess(self, image, prompt, obj_name):
         # generate and postprocess, return normalized bboxes and actions
+        # prompt is actually not used, but generated from obj_name and prompt template
         if self.action_head == "MLP":
             if self.use_bbox:
                 actions, bbox = self.generate_actions_with_bbox(image, obj_name, action_seq_len=action_with_binned_angle_seq_len)

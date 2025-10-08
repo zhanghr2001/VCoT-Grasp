@@ -1,4 +1,4 @@
-source /root/miniconda3/bin/activate graspllm
+source /root/miniconda3/bin/activate grasp
 
 accelerate launch --config_file accelerate_configs/train_4gpu.yaml main.py \
     --save-root checkpoints \

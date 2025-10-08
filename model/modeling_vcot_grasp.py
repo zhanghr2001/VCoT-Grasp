@@ -85,7 +85,7 @@ class VCoTGraspPreTrainedModel(PreTrainedModel):
     config_class = VCoTGraspConfig
     base_model_prefix = "model"
     supports_gradient_checkpointing = True
-    _no_split_modules = ["GraspLlmImageProjector"]
+    _no_split_modules = ["VCoTGraspImageProjector"]
     _skip_keys_device_placement = "past_key_values"
     _supports_cache_class = True
     _supports_quantized_cache = True
@@ -112,7 +112,7 @@ class VCoTGraspPreTrainedModel(PreTrainedModel):
         self.tie_weights()
 
     def _init_weights(self, module):
-        # important: this ported version of PaliGemmaisn't meant for training from scratch - only
+        # important: this ported version of PaliGemma isn't meant for training from scratch - only
         # inference and fine-tuning
         std = self.config.initializer_range if hasattr(self.config, "initializer_range") else self.config.text_config.initializer_range
 

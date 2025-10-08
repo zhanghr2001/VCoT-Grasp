@@ -2,7 +2,7 @@
     "_vocab_size": 257154,
     "_attn_implementation": "flash_attention_2",
     "architectures": [
-      "GraspLlmForConditionalGeneration"
+      "VCoTGraspForConditionalGeneration"
     ],
     "bos_token_id": 2,
     "eos_token_id": 1,

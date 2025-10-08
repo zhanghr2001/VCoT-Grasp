@@ -15,7 +15,7 @@ logger = logging.get_logger(__name__)
 
 class ArchConfig(PretrainedConfig):
 
-    model_type = "graspllm_architecture"
+    model_type = "vcot_grasp_architecture"
 
     def __init__(
         self,
@@ -24,10 +24,6 @@ class ArchConfig(PretrainedConfig):
         **kwargs,
     ):
         self.use_bbox = use_bbox
-        # for compatible
-        if action_head == "None":
-            action_head = "LM_pretrained"
-        assert action_head in ["MLP", "Diffusion", "LM_pretrained", "LM_new"]
         self.action_head = action_head
         super().__init__(**kwargs)
 
@@ -81,7 +77,7 @@ class VCoTGraspConfig(PretrainedConfig):
     >>> configuration = model.config
     ```"""
 
-    model_type = "graspllm"
+    model_type = "vcot_grasp"
     sub_configs = {"text_config": AutoConfig, "vision_config": AutoConfig, "arch_config": ArchConfig}
 
     def __init__(

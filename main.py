@@ -98,7 +98,7 @@ def main(args):
                         with torch.no_grad():
                             outputs = model(**batch, use_cache=False)
                         loss = outputs.loss
-                        losses.append(accelerator.gather_for_metrics(loss.repeat(args.eval_per_device_batch_size)))
+                        losses.append(accelerator.gather_for_metrics(loss.repeat(args.eval_batch_size_per_gpu)))
 
                     losses = torch.cat(losses)
                     eval_loss = torch.mean(losses)
@@ -107,26 +107,18 @@ def main(args):
                     model.train()
 
                 if global_step % args.save_every_n_steps == 0:
-                    # in deepspeed, all processes must call save_state method and not just the process with rank 0, see https://github.com/huggingface/diffusers/issues/2606
-                    # accelerator.save_state() is only done on main process, so do not use "if accelerator.is_main_process"
                     version_dir = os.path.join(save_dir, f"epoch{epoch}_step{global_step}")
-                    if args.save_state:
-                        state_version_dir = os.path.join(save_dir, f"epoch{epoch}_step{global_step}_state")
-                        accelerator.save_state(state_version_dir)  # save model, optimizer, scheduler, scaler, RNG
                     if accelerator.is_main_process:
                         unwrapped_model = accelerator.unwrap_model(model)
                         unwrapped_model.save_pretrained(version_dir)
 
     version_dir = os.path.join(save_dir, f"epoch{epoch}_step{global_step}")
-    if args.save_state:
-        state_version_dir = os.path.join(save_dir, f"epoch{epoch}_step{global_step}_state")
-        accelerator.save_state(state_version_dir)
     if accelerator.is_main_process:
         unwrapped_model = accelerator.unwrap_model(model)
         unwrapped_model.save_pretrained(version_dir)
 
-    accelerator.end_training()
     accelerator.print("Training end")
+    accelerator.end_training()
 
 
 if __name__ == "__main__":
@@ -137,7 +129,6 @@ if __name__ == "__main__":
     parser.add_argument("--save-root", type=str, default="./checkpoint", help="save directory")
     parser.add_argument("--tensorboard-root", type=str, default="./checkpoint/tensorboard", help="tensorboard directory")
     parser.add_argument("--run-name", type=str, default="run", help="name of this training phase")
-    parser.add_argument("--save-state", action="store_true", help="save grad, optimizer states, etc")
 
     # architecture choice
     parser.add_argument("--use-bbox", action="store_true")
