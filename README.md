@@ -1,10 +1,13 @@
 # VCoT-Grasp: Grasp Foundation Models with Visual Chain-of-Thought Reasoning for Language-driven Grasp Generation
 
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2510.05827) &ensp; [![Project](https://img.shields.io/badge/Project-Page-blue?logo=homepage&logoColor=white)](https://zhanghr2001.github.io/VCoT-Grasp.github.io/) &ensp; [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow)](https://huggingface.co/zhanghr2001/VCoT-Grasp/)
 
-<!-- [![arXiv](https://img.shields.io/badge/arXiv-2409.14163-b31b1b.svg)](https://arxiv.org/abs/2409.14163) -->
+
+This is the official repository for [VCoT-Grasp: Grasp Foundation Models with Visual Chain-of-Thought Reasoning for Language-driven Grasp Generation](https://arxiv.org/abs/2510.05827).
 
 
-Authors: Haoran Zhang, [Shuanghao Bai](https://baishuanghao.github.io/), [Wanqi Zhou](https://scholar.google.com/citations?user=3Q_3PR8AAAAJ&hl=zh-CN), Yuedi Zhang, Qi Zhang, [Pengxiang Ding](https://scholar.google.com/citations?user=QyBSTzEAAAAJ), [Cheng Chi](https://scholar.google.com/citations?user=wWGpskcAAAAJ), [Donglin Wang](https://scholar.google.com/citations?user=-fo6wdwAAAAJ), [Badong Chen](https://scholar.google.com/citations?user=mq6tPX4AAAAJ&hl=zh-CN&oi=ao).
+
+<!-- Authors: Haoran Zhang, [Shuanghao Bai](https://baishuanghao.github.io/), [Wanqi Zhou](https://scholar.google.com/citations?user=3Q_3PR8AAAAJ&hl=zh-CN), Yuedi Zhang, Qi Zhang, [Pengxiang Ding](https://scholar.google.com/citations?user=QyBSTzEAAAAJ), [Cheng Chi](https://scholar.google.com/citations?user=wWGpskcAAAAJ), [Donglin Wang](https://scholar.google.com/citations?user=-fo6wdwAAAAJ), [Badong Chen](https://scholar.google.com/citations?user=mq6tPX4AAAAJ&hl=zh-CN&oi=ao). -->
 
 
 ## Highlights
@@ -26,7 +29,7 @@ For training, we refine and introduce a large-scale dataset, VCoT-GraspSet, comp
 
 
 ## Installation 
-Our code is tested on Ubuntu 22.04 LTS with cuda version 12.1. Follow the below steps to create environment and install dependencies.
+Our code is tested on Ubuntu 22.04 LTS and CUDA 12.1.
 
 * Setup conda environment.
 ```bash
@@ -36,8 +39,11 @@ conda activate grasp
 
 # Install torch, refer to https://pytorch.org/get-started/previous-versions/ if your cuda version is different
 pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu121
+```
 
-# Install flash attention for training, adjust MAX_JOBS according to your RAM
+* Install [FlashAttention](https://github.com/Dao-AILab/flash-attention) for training.
+```bash
+# Adjust MAX_JOBS according to your RAM.
 pip install ninja
 MAX_JOBS=4 pip install flash-attn --no-build-isolation
 # Alternatively, it's recommended to download .whl file from https://github.com/Dao-AILab/flash-attention/releases and directly install the .whl file.
@@ -56,19 +62,25 @@ pip install -r requirements.txt
 ```
 
 ## Data Preparation
-Download Grasp Anything data.
+Download source data from Grasp Anything.
 
 ```bash
 # download and unzip
 bash data_prepare/grasp_anything/download.sh
 ```
 
-Our VCoT-GraspSet are in [split/vcot folder](split/vcot). Also modify the path in constants.py to your folders.
+Also modify the path in constants.py to the downloaded data.
+```python
+grasp_anything_rgb_root = "<path>/grasp_anything/image"
+grasp_anything_mask_root = "<path>/grasp_anything/mask"
+grasp_anything_planar_grasp_root = "<path>/grasp_anything/grasp_label_positive"
+```
+Our VCoT-GraspSet can be found at [split/vcot](split/vcot). 
 <!-- Our filter algorithm can be found in data_prepare/yolo_world. -->
 
 
 ## Training and Evaluation
-Scripts for training and evaluation are in [scripts folder](scripts/). Training configs can be found in [accelerate_configs](accelerate_configs/).
+Launch training using 🤗[Accelerate](https://github.com/huggingface/accelerate). Training configs can be found in [accelerate_configs](accelerate_configs/).
 
 ```bash
 # training
@@ -80,10 +92,17 @@ bash scripts/eval.sh
 
 
 ## Demo
-Our checkpoint is released on [HuggingFace](https://huggingface.co/zhanghr2001/VCoT-Grasp/).
+Our checkpoint is released on 🤗Hugging Face
+
+| Model ID | Description | Params | DType | Link |
+|----------|-------------|--------|-------|------|
+| `zhanghr2001/VCoT-Grasp` | VCoT-Grasp with MLP head | 3B | bfloat16 | 🤗 [Link](https://huggingface.co/zhanghr2001/VCoT-Grasp/) |
+
 Run the following command to download the checkpoint and run demo.
 ```bash
+# Download model weights to checkpoints/vcot
 huggingface-cli download zhanghr2001/VCoT-Grasp --local-dir checkpoints/vcot
+# Run inference using assets/demo.jpg
 python demo.py
 ```
 
@@ -103,5 +122,4 @@ If our code is helpful to your research or projects, please consider citing:
 
 
 ## Acknowledgements
-
-Our style of readme refers to [PDA](https://github.com/BaiShuanghao/Prompt-based-Distribution-Alignment). 
+Our baseline implementation is based on [LGD](https://github.com/Fsoft-AIC/LGD). 

@@ -58,7 +58,6 @@ class VCoTGraspInferencer:
 
         # remove <eos>
         decoded = decoded[:-5]
-        print("generated: ", decoded)
         return decoded
 
     @torch.inference_mode
@@ -97,7 +96,6 @@ class VCoTGraspInferencer:
         bbox_image = crop_bbox(image, bbox)
         grasp_prompt = self.get_grasp_prompt(obj_name)
         generated_actions = self.generate_n_tokens(image, grasp_prompt, obj_name, bbox_image=bbox_image, n=5)
-        print("generated_action:", generated_actions)
 
         return generated_actions, bbox
 
