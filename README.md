@@ -1,34 +1,74 @@
+<div align="center">   
+  
 # VCoT-Grasp: Grasp Foundation Models with Visual Chain-of-Thought Reasoning for Language-driven Grasp Generation
 
+</div>
+
+
+<div align="center">   
+  
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2510.05827) &ensp; [![Project](https://img.shields.io/badge/Project-Page-blue?logo=homepage&logoColor=white)](https://zhanghr2001.github.io/VCoT-Grasp.github.io/) &ensp; [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow)](https://huggingface.co/zhanghr2001/VCoT-Grasp/)
 
+</div>
 
 This is the official repository for [VCoT-Grasp: Grasp Foundation Models with Visual Chain-of-Thought Reasoning for Language-driven Grasp Generation](https://arxiv.org/abs/2510.05827).
 
 
-
-<!-- Authors: Haoran Zhang, [Shuanghao Bai](https://baishuanghao.github.io/), [Wanqi Zhou](https://scholar.google.com/citations?user=3Q_3PR8AAAAJ&hl=zh-CN), Yuedi Zhang, Qi Zhang, [Pengxiang Ding](https://scholar.google.com/citations?user=QyBSTzEAAAAJ), [Cheng Chi](https://scholar.google.com/citations?user=wWGpskcAAAAJ), [Donglin Wang](https://scholar.google.com/citations?user=-fo6wdwAAAAJ), [Badong Chen](https://scholar.google.com/citations?user=mq6tPX4AAAAJ&hl=zh-CN&oi=ao). -->
-
-
-## Highlights
+## 🌟 Highlights
 
 ![main figure](assets/model.png)
 > **<p align="justify"> Abstract:** *Robotic grasping is one of the most fundamental tasks in robotic manipulation, and grasp detection/generation has long been the subject of extensive research. Recently, language-driven grasp generation has emerged as a promising direction due to its practical interaction capabilities. However, most existing approaches either lack sufficient reasoning and generalization capabilities or depend on complex modular pipelines. Moreover, current grasp foundation models tend to overemphasize dialog and object semantics, resulting in inferior performance and restriction to single-object grasping.
 To maintain strong reasoning ability and generalization in cluttered environments, we propose VCoT-Grasp, an end-to-end grasp foundation model that incorporates visual chain-of-thought reasoning to enhance visual understanding for grasp generation. VCoT-Grasp adopts a multi-turn processing paradigm that dynamically focuses on visual inputs while providing interpretable reasoning traces.
-For training, we refine and introduce a large-scale dataset, VCoT-GraspSet, comprising 167K synthetic images with over 1.36M grasps, as well as 400+ real-world images with more than 1.2K grasps, annotated with intermediate bounding boxes. Extensive experiments on both VCoT-GraspSet and real robot demonstrate that our method significantly improves grasp success rates and generalizes effectively to unseen objects, backgrounds, and distractors. Our code and dataset will be made publicly available.* </p>
-
-<details>
-  
-<summary>Main Contributions</summary>
-
-1) We propose VCoT-Grasp, an end-to-end foundation model that combines language-driven grasp generation with visual chain-of-thought reasoning, improving visual understanding, grasp quality, and generalization.
-2) We present VCoT-GraspSet, a refined grasping dataset comprising 167K synthetic images with over 1.36M grasps and 400+ real-world images with more than 1.2K grasps. Each sample includes an image, grasp annotations, and intermediate bounding boxes that serve as chain-of-thought context.
-3) Extensive experiments on both VCoT-GraspSet and real-world scenarios demonstrate that VCoT-Grasp produces high-quality grasps and generalizes effectively to unseen objects, backgrounds, and distractors.
-   
-</details>
+For training, we refine and introduce a large-scale dataset, VCoT-GraspSet, comprising 167K synthetic images with over 1.36M grasps, as well as 400+ real-world images with more than 1.2K grasps, annotated with intermediate bounding boxes. Extensive experiments on both VCoT-GraspSet and real robot demonstrate that our method significantly improves grasp success rates and generalizes effectively to unseen objects, backgrounds, and distractors.* </p>
 
 
-## Installation 
+## 🤗 Model Zoo
+
+| Model ID | Description | Params | DType | Link |
+|:----------:|:-------------:|:--------:|:-------:|:------:|
+| `zhanghr2001/VCoT-Grasp` | VCoT-Grasp with MLP head | 3B | bfloat16 | 🤗 [Link](https://huggingface.co/zhanghr2001/VCoT-Grasp/) |
+
+TODO: We will release more pretrained models with a variety of heads.
+
+Run the following command to download the checkpoint.
+```bash
+# Download model weights to checkpoints/vcot
+huggingface-cli download zhanghr2001/VCoT-Grasp --local-dir checkpoints/vcot
+```
+
+The results are presented below. FT and ZS denote Fine-tuning and Zero-shot, respectively, with the number in parentheses indicating the number of object categories.
+
+<table>
+  <tr>
+    <th rowspan="2">Method</th>
+    <th colspan="3">VCoT-GraspSet</th>
+    <th colspan="3">Real-World (FT)</th>
+    <th rowspan="1">Real-World (ZS)</th>
+    <th colspan="2">Real-World (FT,Generalization)</th>
+  </tr>
+  <tr>
+    <th>Seen (367)</th>
+    <th>Unseen (21)</th>
+    <th>Avg.</th>
+    <th>Seen (15)</th>
+    <th>Unseen (15)</th>
+    <th>Avg.</th>
+    <th>Unseen (15)</th>
+    <th>Background (5)</th>
+    <th>Distractors (5)</th>
+  </tr>
+  <tr><td>LGD</td><td>0.39</td><td>0.13</td><td>0.20</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+  <tr><td>CLIP-Fusion</td><td>0.52</td><td>0.14</td><td>0.21</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+  <tr><td>GG-CNN + CLIP</td><td>0.56</td><td>0.18</td><td>0.27</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+  <tr><td>GR-ConvNet + CLIP</td><td>0.71</td><td>0.33</td><td>0.45</td><td>0.68</td><td>0.55</td><td>0.62</td><td>0.44</td><td>0.60</td><td>0.48</td></tr>
+  <tr><td>RT-Grasp</td><td>0.59</td><td>0.45</td><td>0.51</td><td>0.6</td><td>0.53</td><td>0.57</td><td>0.48</td><td>0.56</td><td>0.52</td></tr>
+  <tr><td>VCoT-Grasp w/ MLP Head</td><td> <b>0.73</b> </td><td> <b>0.52</b> </td><td> <b>0.61</b> </td><td> <b>0.76</b> </td><td> <b>0.71</b> </td><td> <b>0.74</b> </td><td> <b>0.60</b></td><td> <b>0.84</b> </td><td> <b>0.64</b> </td></tr>
+  <tr><td>VCoT-Grasp w/ LM Head</td><td> <b>0.84</b> </td><td> <b>0.59</b> </td><td> <b>0.69</b> </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+</table>
+
+
+
+## 🛠️ Installation 
 Our code is tested on Ubuntu 22.04 LTS and CUDA 12.1.
 
 * Setup conda environment.
@@ -61,7 +101,14 @@ cd VCoT-Grasp
 pip install -r requirements.txt
 ```
 
-## Data Preparation
+## 🚀 Quick Start
+Run the following command to run the example demo.
+```bash
+# Run inference using assets/demo.jpg
+python demo.py
+```
+
+## 💿 Data Preparation
 Download source data from Grasp Anything.
 
 ```bash
@@ -79,47 +126,32 @@ Our VCoT-GraspSet can be found at [split/vcot](split/vcot).
 <!-- Our filter algorithm can be found in data_prepare/yolo_world. -->
 
 
-## Training and Evaluation
+## 🔥 Training
 Launch training using 🤗[Accelerate](https://github.com/huggingface/accelerate). Training configs can be found in [accelerate_configs](accelerate_configs/).
 
 ```bash
 # training
 bash scripts/train.sh
+```
 
+## 📊 Evaluation
+```bash
 # evaluation
 bash scripts/eval.sh
 ```
 
 
-## Demo
-Our checkpoint is released on 🤗Hugging Face
-
-| Model ID | Description | Params | DType | Link |
-|----------|-------------|--------|-------|------|
-| `zhanghr2001/VCoT-Grasp` | VCoT-Grasp with MLP head | 3B | bfloat16 | 🤗 [Link](https://huggingface.co/zhanghr2001/VCoT-Grasp/) |
-
-Run the following command to download the checkpoint and run demo.
-```bash
-# Download model weights to checkpoints/vcot
-huggingface-cli download zhanghr2001/VCoT-Grasp --local-dir checkpoints/vcot
-# Run inference using assets/demo.jpg
-python demo.py
-```
-
-## Citation
+## 📑 Citation
 If our code is helpful to your research or projects, please consider citing:
 ```bibtex
-@misc{zhang2025vcotgraspgraspfoundationmodels,
-      title={VCoT-Grasp: Grasp Foundation Models with Visual Chain-of-Thought Reasoning for Language-driven Grasp Generation}, 
-      author={Haoran Zhang and Shuanghao Bai and Wanqi Zhou and Yuedi Zhang and Qi Zhang and Pengxiang Ding and Cheng Chi and Donglin Wang and Badong Chen},
-      year={2025},
-      eprint={2510.05827},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO},
-      url={https://arxiv.org/abs/2510.05827}, 
+article{zhang2025vcot,
+  title={VCoT-Grasp: Grasp Foundation Models with Visual Chain-of-Thought Reasoning for Language-driven Grasp Generation},
+  author={Zhang, Haoran and Bai, Shuanghao and Zhou, Wanqi and Zhang, Yuedi and Zhang, Qi and Ding, Pengxiang and Chi, Cheng and Wang, Donglin and Chen, Badong},
+  journal={arXiv preprint arXiv:2510.05827},
+  year={2025}
 }
 ```
 
 
-## Acknowledgements
-Our baseline implementation is based on [LGD](https://github.com/Fsoft-AIC/LGD). 
+## 🙏 Acknowledgements
+Our baseline implementation builds upon [LGD](https://github.com/Fsoft-AIC/LGD). Our model is based on [Paligemma 2](https://huggingface.co/google/paligemma2-3b-mix-224). We extend our sincere thanks to the authors for their publicly available code and valuable contributions to the research community.
