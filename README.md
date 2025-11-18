@@ -30,11 +30,11 @@ For training, we refine and introduce a large-scale dataset, VCoT-GraspSet, comp
 
 Our checkpoints are released in [`zhanghr2001/VCoT-Grasp`](https://huggingface.co/zhanghr2001/VCoT-Grasp/).
 
-| Branch | Description | Params | DType |
-|:----------:|:-------------:|:--------:|:-------:|
-| `main` | MLP head | 3B | bfloat16 |
-| `lm_pretrain` | LM head with pretrained token | 3B | bfloat16 |
-| `diffusion` | diffusion head | 3B | bfloat16 |
+| Branch | Description | Params | DType | Link |
+|:----------:|:-------------:|:--------:|:-------:|:-------:|
+| `main` | MLP head | 3B | bfloat16 | 🤗 [VCoT-Grasp MLP](https://huggingface.co/zhanghr2001/VCoT-Grasp/tree/main) |
+| `lm_pretrain` | LM head with pretrained token | 3B | bfloat16 | 🤗 [VCoT-Grasp LM](https://huggingface.co/zhanghr2001/VCoT-Grasp/tree/lm_pretrain) |
+| `diffusion` | diffusion head | 3B | bfloat16 | 🤗 [VCoT-Grasp Diffusion](https://huggingface.co/zhanghr2001/VCoT-Grasp/tree/diffusion) |
 
 
 Run the following command to download the checkpoint.
