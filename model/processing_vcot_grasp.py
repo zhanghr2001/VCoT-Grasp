@@ -99,9 +99,11 @@ class VCoTGraspProcessor(ProcessorMixin):
         return_token_type_ids = True if suffix is not None else False
 
         # if have bbox image, image seq len is 2 * 256, else 256
-        image_seq_len = [self.image_seq_length if bbox_image is None else 2 * self.image_seq_length for bbox_image in bbox_images]
+        image_seq_len = [
+            self.image_seq_length if bbox_image is None else 2 * self.image_seq_length for bbox_image in bbox_images
+        ]
         input_strings = [
-            self.build_string_from_input_with_cropped_bbox(
+            self.build_string_from_input(
                 prompt=prompt,
                 bos_token="<bos>",
                 image_seq_len=seq_len,
@@ -120,7 +122,7 @@ class VCoTGraspProcessor(ProcessorMixin):
 
         # max_length has to account for the image tokens
         if output_kwargs["text_kwargs"].get("max_length", None) is not None:
-            output_kwargs["text_kwargs"]["max_length"] += self.image_seq_length + self.depth_seq_length + self.point_seq_length
+            output_kwargs["text_kwargs"]["max_length"] += self.image_seq_length
 
         text_inputs = self.tokenizer(
             input_strings,
@@ -166,10 +168,6 @@ class VCoTGraspProcessor(ProcessorMixin):
             image_token (`str`): The image token.
             num_images (`int`): Number of images in the prompt.
         """
-        return f"{image_token * image_seq_len}{bos_token}{prompt}\n"
-
-    def build_string_from_input_with_cropped_bbox(self, prompt, bos_token, image_seq_len, image_token):
-        r"""Remove \n here and add \n in Dataset.__getitem__ for compatible with inference."""
         return f"{image_token * image_seq_len}{bos_token}{prompt}\n"
 
     # Copied from transformers.models.clip.processing_clip.CLIPProcessor.batch_decode with CLIP->Gemma

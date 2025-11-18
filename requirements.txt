@@ -10,4 +10,3 @@ pillow
 opencv-python  # opencv-python-headless for servers without GUI
 pandas
 tensorboardX
-nvitop

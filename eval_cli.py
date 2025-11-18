@@ -1,14 +1,15 @@
 import os
 import argparse
+
+import numpy as np
+import torch
 from PIL import Image, ImageDraw
 from tqdm import tqdm
 
 from model import VCoTGraspConfig, VCoTGraspForConditionalGeneration, VCoTGraspProcessor
 from data import *
 from constants import *
-
-from inference import *
-from planar_vis import draw_grasp_rectangle
+from inference import VCoTGraspInferencer, eval_grasp_all_labels
 
 
 def eval(load_checkpoint_dir, test_split, use_bbox, action_head, device, visualize_dir, result_dir, use_lora=False):

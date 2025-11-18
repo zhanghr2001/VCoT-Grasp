@@ -1,14 +1,13 @@
 import os
 import argparse
+
 from PIL import Image, ImageDraw
 from tqdm import tqdm
 
 from model import VCoTGraspConfig, VCoTGraspForConditionalGeneration, VCoTGraspProcessor
 from data import *
 from constants import *
-
 from inference import *
-from planar_vis import draw_grasp_rectangle
 
 
 image_path = "assets/demo.jpg"

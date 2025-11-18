@@ -24,16 +24,23 @@ For training, we refine and introduce a large-scale dataset, VCoT-GraspSet, comp
 
 ## 🤗 Model Zoo
 
-| Model ID | Description | Params | DType | Link |
+<!-- | Model ID | Description | Params | DType | Link |
 |:----------:|:-------------:|:--------:|:-------:|:------:|
-| `zhanghr2001/VCoT-Grasp` | VCoT-Grasp with MLP head | 3B | bfloat16 | 🤗 [Link](https://huggingface.co/zhanghr2001/VCoT-Grasp/) |
+| `zhanghr2001/VCoT-Grasp` | VCoT-Grasp with MLP head | 3B | bfloat16 | 🤗 [Link](https://huggingface.co/zhanghr2001/VCoT-Grasp/) | -->
 
-TODO: We will release more pretrained models with a variety of heads.
+Our checkpoints are released in [`zhanghr2001/VCoT-Grasp`](https://huggingface.co/zhanghr2001/VCoT-Grasp/).
+
+| Branch | Description | Params | DType |
+|:----------:|:-------------:|:--------:|:-------:|
+| `main` | MLP head | 3B | bfloat16 |
+| `lm_pretrain` | LM head with pretrained token | 3B | bfloat16 |
+| `diffusion` | diffusion head | 3B | bfloat16 |
+
 
 Run the following command to download the checkpoint.
 ```bash
 # Download model weights to checkpoints/vcot
-huggingface-cli download zhanghr2001/VCoT-Grasp --local-dir checkpoints/vcot
+huggingface-cli download zhanghr2001/VCoT-Grasp --revision main --local-dir checkpoints/vcot
 ```
 
 The results are presented below. FT and ZS denote Fine-tuning and Zero-shot, respectively, with the number in parentheses indicating the number of object categories.
